@@ -26,4 +26,6 @@
     <color name="red">#FF0000</color>
 
     <color name="toolbar">#ff4500</color>
+
+    <color name="light_gray">#DCDCDC</color>
 </resources>

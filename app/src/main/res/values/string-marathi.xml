@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edt_search">शोधा</string>
+
+    <string name="card_name">सभासदाचे नाव</string>
+    <string name="card_date">तारीख</string>
+    <string name="card_cast">कास्ट</string>
+    <string name="card_contact">संपर्क क्रमांक</string>
+
+    <string name="register_wardno">वॉर्ड</string>
+    <string name="register_membername">नाव</string>
+    <string name="register_memberage">वय</string>
+    <string name="register_dob">जन्मतारीख </string>
+    <string name="register_education">शिक्षण </string>
+    <string name="register_occupation">व्यवसाय </string>
+    <string name="register_tempaddress">तात्पुरता पत्ता</string>
+    <string name="register_peraddress">कायमचा पत्ता</string>
+    <string name="register_curaddress"> सध्या राहत असलेला पत्ता</string>
+    <string name="register_contact">संपर्क क्रमांक </string>
+    <string name="register_cast">कास्ट </string>
+    <string name="register_gender">लिंग </string>
+    <string name="register_male">पुरुष </string>
+    <string name="register_female">स्त्री </string>
+    <string name="register_voterno">मतदार ओळख क्रमांक</string>
+    <string name="register_relation"> नातेवाईक</string>
+    <string name="register_btnsubmit"> सबमिट करा</string>
+
+    <string name="register_regi"> सदस्य नोंदणी करा </string>
+    <string name="register_memdetails">सदस्य तपशील</string>
+
+    <string name="relation_name"> मुख्य व्यक्तीचे नाव</string>
+
+
+
+    <string name="relation_form"> नातेवाईक नोंदणी</string>
+    <string name="relation_details"> नातेवाईक तपशील</string>
+
+    <string name="rep_heading">तारखेपसुन तारखेपर्यत निवडा</string>
+    <string name="rep_fromdate">तारखेपसुन</string>
+    <string name="rep_todate">तारखेपर्यत</string>
+    <string name="rep_pdf">पीडीएफ</string>
+
+    <string name="generate_pdf">पीडीएफ निर्माण करा</string>
+
+    <string name="mem_report_details">सदस्य अहवाल तपशील</string>
+    <string name="address"> पत्ता</string>
+    <string name="register_btnupdate"> अपडेट करा</string>
+
+</resources>
