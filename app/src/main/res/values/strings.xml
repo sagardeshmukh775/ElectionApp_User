@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Election App User</string>
 
     <string name="dismiss">dismiss</string>
     <string name="action_sign_in_short">Register</string>

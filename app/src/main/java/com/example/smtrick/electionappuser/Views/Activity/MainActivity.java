@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private Fragment selectedFragement;
     private FirebaseAuth firebaseAuth;
+    //
 
     private String uid;
     private FirebaseUser Fuser;
