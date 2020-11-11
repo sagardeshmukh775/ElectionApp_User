@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "793952281173",
+    "firebase_url": "https://electionapp-199df.firebaseio.com",
+    "project_id": "electionapp-199df",
+    "storage_bucket": "electionapp-199df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793952281173:android:db5540005b6917d2e92adc",
+        "android_client_info": {
+          "package_name": "com.example.smtrick.electionappuser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793952281173-ka2uncuh9to4tcvb389b30voipg3lvjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsBxATbfepWj_UPD3cVWuXF3VqLoxWZcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793952281173-ka2uncuh9to4tcvb389b30voipg3lvjc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793952281173:android:10235c85f3e137e2",
+        "android_client_info": {
+          "package_name": "com.smartloan.smtrick.electionapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793952281173-ua0m8pi022v323r2707htonodmaat5lo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smartloan.smtrick.electionapp",
+            "certificate_hash": "c73a204bb4c1b49eac316b439ae1c0be99d7acd2"
+          }
+        },
+        {
+          "client_id": "793952281173-ka2uncuh9to4tcvb389b30voipg3lvjc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsBxATbfepWj_UPD3cVWuXF3VqLoxWZcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793952281173-ka2uncuh9to4tcvb389b30voipg3lvjc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

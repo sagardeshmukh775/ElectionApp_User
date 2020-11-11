@@ -30,6 +30,7 @@ import com.example.smtrick.electionappuser.R;
 import com.example.smtrick.electionappuser.Repositories.Impl.LeedRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.LeedRepository;
 import com.example.smtrick.electionappuser.Models.Users;
+import com.example.smtrick.electionappuser.Views.Fragments.Tab_Fragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         //setMenuTitles();
 
         //NOTE:  Open fragment1 initially.
-//        selectedFragement = new Members_TabFragment();
+        selectedFragement = new Tab_Fragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, selectedFragement);
         ft.commit();
