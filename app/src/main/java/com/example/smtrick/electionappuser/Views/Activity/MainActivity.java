@@ -25,7 +25,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smtrick.electionappuser.OnFragmentInteractionListener;
+import com.example.smtrick.electionappuser.Listeners.OnFragmentInteractionListener;
 import com.example.smtrick.electionappuser.R;
 import com.example.smtrick.electionappuser.Repositories.Impl.LeedRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.LeedRepository;
