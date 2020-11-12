@@ -34,4 +34,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="title_activity_login">Sign in</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="PLEASE_WAIT">Please Wait&#8230;</string>
 </resources>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.smtrick.electionappuser.Models.MemberVO;
 import com.example.smtrick.electionappuser.Models.PostVO;
 import com.example.smtrick.electionappuser.R;
@@ -22,7 +23,7 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
 
     private Context context;
     private List<PostVO> list;
-    String Language;
+//    String Language;
 
 
     String item;
@@ -46,14 +47,17 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final Post_Adapter.ViewHolder holder, final int position) {
 
-        if (Language.equalsIgnoreCase("Marathi")) {
-//            holder.name1.setText(R.string.register_membername);
-//            holder.date.setText(R.string.address);
-//            holder.cast.setText(R.string.card_contact);
-//            holder.contact.setText(R.string.register_wardno);
-        }
-        final PostVO pveo = list.get(position);
+//        if (Language.equalsIgnoreCase("Marathi")) {
+//
+//        }
+        final PostVO postVO = list.get(position);
 
+
+        holder.txtUsername.setText(postVO.getPostName());
+        holder.txtDays.setText("");
+        holder.txtDescription.setText(postVO.getPostDetails());
+
+        Glide.with(context).load(postVO.getPostImage()).placeholder(R.drawable.loading).into(holder.imgPost);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override

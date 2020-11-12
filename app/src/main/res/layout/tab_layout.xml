@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             app:tabMode="scrollable"
             app:tabIndicatorColor="@android:color/white"
+            app:tabTextAppearance="@style/MineCustomTabText"
             app:tabGravity="fill"
              />
 

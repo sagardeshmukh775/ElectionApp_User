@@ -36,12 +36,14 @@ public class Tab_Fragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragement(new Fragment_Social(), "Social");
-        viewPagerAdapter.addFragement(new Fragment_Social(), "Agricultural");
-        viewPagerAdapter.addFragement(new Fragment_Social(), "Educational");
+        viewPagerAdapter.addFragement(new Fragment_Agricultural(), "Agricultural");
+        viewPagerAdapter.addFragement(new Fragment_Festival(), "Festival");
+        viewPagerAdapter.addFragement(new Fragment_Business(), "Business");
+        viewPagerAdapter.addFragement(new Fragment_Poytical(), "Polytical");
+        viewPagerAdapter.addFragement(new Fragment_Educational(), "Educational");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        tabLayout.setTabMode(1);
         tabLayout.setupWithViewPager(viewPager);
 
 

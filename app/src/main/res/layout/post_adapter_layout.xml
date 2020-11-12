@@ -19,16 +19,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="6dp"
             android:orientation="horizontal">
 
-            <ImageView
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/logo" />
+                android:src="@drawable/person"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="3dp" />
+<!--            <ImageView-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:src="@drawable/logo" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -36,8 +46,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="UserName"
-                    android:textColor="@color/mainTextColor"
-                    android:textSize="20dp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/txtPostdays"
@@ -58,7 +69,7 @@
             android:layout_height="wrap_content"
             android:text="UserName"
             android:textColor="@color/mainTextColor"
-            android:layout_marginTop="6dp"
+            android:layout_margin="6dp"
             android:maxLines="3"
             android:textSize="16dp" />
 
@@ -71,7 +82,8 @@
             <ImageView
                 android:id="@+id/imgPost"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="450dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_menu_gallery" />
 
 
@@ -88,6 +100,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="6dp"
+            android:layout_margin="6dp"
             android:layout_marginTop="6dp"
             android:weightSum="100">
 
@@ -100,8 +113,8 @@
 
                 <ImageView
                     android:id="@+id/imgLike"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:src="@drawable/heart"/>
 
@@ -111,7 +124,8 @@
                     android:text="Like"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textSize="10dp" />
+                    android:layout_marginLeft="4dp"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -124,8 +138,8 @@
 
                 <ImageView
                     android:id="@+id/imgShare"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/share"/>
 
                 <TextView
@@ -133,7 +147,8 @@
                     android:layout_height="wrap_content"
                     android:text="Share"
                     android:layout_gravity="center"
-                    android:textSize="10dp" />
+                    android:layout_marginLeft="4dp"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 

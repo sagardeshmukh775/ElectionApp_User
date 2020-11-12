@@ -58,5 +58,6 @@ public class Constants {
     public static final String CAT_BUSINESS = "Business";
     public static final String CAT_EDUCATIONAL = "Educational";
     public static final String CAT_SOCIAL = "Social";
+    public static final String CAT_AGRICULTURE = "Agricultural";
 
 }
