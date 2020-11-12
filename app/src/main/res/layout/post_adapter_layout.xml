@@ -95,12 +95,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/imgLike"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/heart"/>
 
                 <TextView
@@ -108,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:text="Like"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:textSize="10dp" />
 
             </LinearLayout>
@@ -116,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView

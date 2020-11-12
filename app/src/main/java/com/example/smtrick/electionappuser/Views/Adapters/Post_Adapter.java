@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smtrick.electionappuser.Models.MemberVO;
+import com.example.smtrick.electionappuser.Models.PostVO;
 import com.example.smtrick.electionappuser.R;
 import com.squareup.picasso.Picasso;
 
@@ -20,17 +21,16 @@ import java.util.List;
 public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> {
 
     private Context context;
-    private List<MemberVO> list;
+    private List<PostVO> list;
     String Language;
 
 
     String item;
 
 
-    public Post_Adapter(Context context, List<MemberVO> list, String language) {
+    public Post_Adapter(Context context, List<PostVO> list) {
         this.context = context;
         this.list = list;
-        this.Language = language;
     }
 
 
@@ -52,7 +52,7 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
 //            holder.cast.setText(R.string.card_contact);
 //            holder.contact.setText(R.string.register_wardno);
         }
-        final MemberVO pveo = list.get(position);
+        final PostVO pveo = list.get(position);
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +100,7 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
         }
     }
 
-    public void reload(ArrayList<MemberVO> leedsModelArrayList) {
+    public void reload(ArrayList<PostVO> leedsModelArrayList) {
         list.clear();
         list.addAll(leedsModelArrayList);
         notifyDataSetChanged();

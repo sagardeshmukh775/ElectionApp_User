@@ -19,4 +19,7 @@ public interface LeedRepository {
     void readActiveUser(final String userId, CallBack callback);
 
     void updateRelative(final String leedId, final Map leedsMap, final CallBack callBack);
+
+    void readPostsByCategory(final String category, final CallBack callBack);
+
 }
