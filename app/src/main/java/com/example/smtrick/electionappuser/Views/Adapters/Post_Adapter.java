@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -21,7 +22,9 @@ import com.example.smtrick.electionappuser.Models.MemberVO;
 import com.example.smtrick.electionappuser.Models.PostVO;
 import com.example.smtrick.electionappuser.Models.Users;
 import com.example.smtrick.electionappuser.R;
+import com.example.smtrick.electionappuser.Repositories.Impl.LeedRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.Impl.UserRepositoryImpl;
+import com.example.smtrick.electionappuser.Repositories.LeedRepository;
 import com.example.smtrick.electionappuser.Repositories.UserRepository;
 import com.example.smtrick.electionappuser.preferences.AppSharedPreference;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +38,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> {
 
@@ -44,8 +48,10 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
     private FirebaseAuth firebaseAuth;
 
     UserRepository userRepository;
+    LeedRepository leedRepository;
     AppSharedPreference appSharedPreference;
     String item;
+    ArrayList<String> Likes;
 
 
     public Post_Adapter(Context context, List<PostVO> list) {
@@ -70,13 +76,33 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
         final PostVO postVO = list.get(position);
 
         userRepository = new UserRepositoryImpl();
+        leedRepository = new LeedRepositoryImpl();
         appSharedPreference = new AppSharedPreference(holder.cardView.getContext());
+        Likes = new ArrayList<>();
 
         holder.txtUsername.setText(postVO.getPostName());
         holder.txtDays.setText("");
         holder.txtDescription.setText(postVO.getPostDetails());
 
+        if (postVO.getLikes() != null) {
+            Likes = (ArrayList<String>) postVO.getLikes();
+        }
+
         Glide.with(context).load(postVO.getPostImage()).placeholder(R.drawable.loading).into(holder.imgPost);
+
+        if (postVO.getLikes() != null) {
+            if (postVO.getLikes().contains(appSharedPreference.getEmaiId())) {
+                flag = 1;
+                holder.imgLike.setImageResource(R.drawable.heart_blue);
+                holder.txtLike.setTextColor(ContextCompat.getColor(context, R.color.like));
+
+            } else {
+                flag = 0;
+                holder.imgLike.setImageResource(R.drawable.heart);
+                holder.txtLike.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+
+            }
+        }
 
         holder.layoutLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,16 +112,40 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
                     flag = 1;
                     holder.imgLike.setImageResource(R.drawable.heart_blue);
                     holder.txtLike.setTextColor(ContextCompat.getColor(context, R.color.like));
+                    Likes.add(appSharedPreference.getEmaiId());
+                    UpdatePost(postVO);
 
                 } else if (flag == 1) {
                     flag = 0;
                     holder.imgLike.setImageResource(R.drawable.heart);
                     holder.txtLike.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+                    int index = Likes.indexOf(appSharedPreference.getEmaiId());
+                    Likes.remove(index);
+                    UpdatePost(postVO);
                 }
             }
         });
 
 
+    }
+
+    private void UpdatePost(PostVO postVO) {
+        postVO.setLikes(Likes);
+        updateLeed(postVO.getPostId(), postVO.getLeedStatusMap());
+    }
+
+    private void updateLeed(String postId, Map leedStatusMap) {
+        leedRepository.updatePost(postId, leedStatusMap, new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                Toast.makeText(context, "updated", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Object object) {
+
+            }
+        });
     }
 
 
@@ -107,9 +157,9 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView cardView;
-        private TextView txtUsername, txtDays, txtDescription,txtLike,txtShare;
+        private TextView txtUsername, txtDays, txtDescription, txtLike, txtShare;
         private ImageView imgPost, imgLike, imgShare;
-        private LinearLayout layoutLike,layoutShare;
+        private LinearLayout layoutLike, layoutShare;
 
 
         public ViewHolder(View itemView) {

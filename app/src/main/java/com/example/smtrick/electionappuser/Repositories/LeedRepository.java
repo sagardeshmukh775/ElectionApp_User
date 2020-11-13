@@ -22,4 +22,6 @@ public interface LeedRepository {
 
     void readPostsByCategory(final String category, final CallBack callBack);
 
+    void updatePost(final String ostId, final Map leedsMap, CallBack callBack);
+
 }
