@@ -1,6 +1,7 @@
 package com.example.smtrick.electionappuser.Models;
 
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.ServerValue;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -72,12 +73,17 @@ public class PostVO implements Serializable {
         this.postId = postId;
     }
 
-    public Long getCreatedDateTime() {
+    @Exclude
+    public Long getCreatedDateTimeLong() {
         return createdDateTime;
     }
 
+    public Map<String, String> getCreatedDateTime() {
+        return ServerValue.TIMESTAMP;
+    }
+
     public void setCreatedDateTime(Long createdDateTime) {
-        this.createdDateTime = createdDateTime;
+        this.createdDateTime = (Long) createdDateTime;
     }
 
     @Exclude
