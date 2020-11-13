@@ -49,7 +49,7 @@ public class UserRepositoryImpl extends FirebaseTemplateRepository implements Us
      */
     @Override
     public void readUser(final String userId, final CallBack callback) {
-        final Query query = Constants.USER_TABLE_REF.orderByChild("userId").equalTo(userId);
+        final Query query = Constants.USER_TABLE_REF.orderByChild("userid").equalTo(userId);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

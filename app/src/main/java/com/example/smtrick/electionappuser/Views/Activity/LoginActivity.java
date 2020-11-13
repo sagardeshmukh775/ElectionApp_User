@@ -16,11 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.smtrick.electionappuser.Callback.CallBack;
+import com.example.smtrick.electionappuser.Constants.Constants;
+import com.example.smtrick.electionappuser.Models.Users;
 import com.example.smtrick.electionappuser.R;
+import com.example.smtrick.electionappuser.Repositories.Impl.UserRepositoryImpl;
+import com.example.smtrick.electionappuser.Repositories.UserRepository;
+import com.example.smtrick.electionappuser.preferences.AppSharedPreference;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+    UserRepository userRepository;
+    AppSharedPreference appSharedPreference;
 
 
     @Override
@@ -37,9 +46,12 @@ public class LoginActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(   LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
+
+        userRepository = new UserRepositoryImpl();
+        appSharedPreference = new AppSharedPreference(this);
 
         // set the view now
         setContentView(R.layout.activity_login);
@@ -56,9 +68,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         //auth = FirebaseAuth.getInstance();
-        if (isNetworkAvailable()){
+        if (isNetworkAvailable()) {
 //            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
@@ -123,10 +135,30 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
 
-                                        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
+                                        final FirebaseUser firebaseUser = Constants.AUTH.getCurrentUser();
+                                        final String userId = firebaseUser.getUid();
+                                        userRepository.readUser(userId, new CallBack() {
+                                            @Override
+                                            public void onSuccess(Object object) {
+                                                if (object != null) {
+                                                    Users users = (Users) object;
+                                                    appSharedPreference.createUserLoginSession();
+                                                    appSharedPreference.addUserDetails(users);
+
+                                                    Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onError(Object object) {
+
+                                            }
+                                        });
+
+
 
                                     } else {
 

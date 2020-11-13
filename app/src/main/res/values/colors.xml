@@ -28,4 +28,6 @@
     <color name="toolbar">#ff4500</color>
 
     <color name="light_gray">#DCDCDC</color>
+
+    <color name="like">#69f</color>
 </resources>

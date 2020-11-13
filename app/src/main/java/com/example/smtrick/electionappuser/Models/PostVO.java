@@ -4,14 +4,16 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PostVO implements Serializable {
 
     private String postName, postCategory, postDetails, postImage, postId;
 
-
+    private List<String> likes;
     public Long createdDateTime;
 
     public PostVO() {
@@ -29,6 +31,7 @@ public class PostVO implements Serializable {
         this.postDetails = postDetails;
         this.postImage = postImage;
         this.postId = postId;
+        this.likes = new ArrayList<String>();
 
     }
 
@@ -86,6 +89,14 @@ public class PostVO implements Serializable {
         this.createdDateTime = (Long) createdDateTime;
     }
 
+    public List<String> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<String> likes) {
+        this.likes = likes;
+    }
+
     @Exclude
     public Map getLeedStatusMap() {
         Map<String, Object> leedMap = new HashMap();
@@ -96,6 +107,7 @@ public class PostVO implements Serializable {
         leedMap.put("postDetails", getPostDetails());
         leedMap.put("postImage", getPostImage());
         leedMap.put("postId", getPostId());
+        leedMap.put("likes", getLikes());
 
         return leedMap;
 
