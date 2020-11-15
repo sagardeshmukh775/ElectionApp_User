@@ -34,6 +34,7 @@ import com.example.smtrick.electionappuser.Repositories.Impl.LeedRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.Impl.UserRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.LeedRepository;
 import com.example.smtrick.electionappuser.Repositories.UserRepository;
+import com.example.smtrick.electionappuser.Utils.Utility;
 import com.example.smtrick.electionappuser.preferences.AppSharedPreference;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,9 +49,16 @@ import com.squareup.picasso.Target;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import static com.example.smtrick.electionappuser.Constants.Constants.GLOBAL_DATE_FORMATE;
 
 public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> {
 
@@ -102,6 +110,35 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
         }
 
         Glide.with(context).load(postVO.getPostImage()).placeholder(R.drawable.loading).into(holder.imgPost);
+
+        if (postVO.getCreatedDateTime() != null) {
+            Date endDate = Calendar.getInstance().getTime();
+
+            String date = Utility.convertMilliSecondsToFormatedDate(postVO.getCreatedDateTimeLong(), GLOBAL_DATE_FORMATE);
+            Date startDate = stringToDate(date, "dd MMM yyyy hh:mm a");
+
+            long difference = Math.abs(endDate.getTime() - startDate.getTime());
+            long differenceDates = difference / (24 * 60 * 60 * 1000);
+            int hours = (int) (difference / (1000 * 60 * 60));
+            int minutes = (int) (difference / (1000 * 60));
+
+            //Convert long to String
+            String dayDifference = Long.toString(differenceDates);
+
+            if (minutes > 60){
+                if (hours > 24){
+                    holder.txtDays.setText(dayDifference + " days ago");
+                }else {
+                    holder.txtDays.setText(String.valueOf(hours)+ " hour ago");
+                }
+            }else {
+                holder.txtDays.setText(String.valueOf(minutes)+ " minutes ago");
+            }
+
+
+
+            Log.e("HERE", "HERE: " + dayDifference);
+        }
 
         if (postVO.getLikes() != null) {
             if (postVO.getLikes().contains(appSharedPreference.getEmaiId())) {
@@ -163,10 +200,10 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                             outputStream.flush();
                             outputStream.close();
-                        } catch(IOException e) {
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Uri uri= Uri.parse(MediaStore.Images.Media.insertImage(holder.imgShare.getContext().getContentResolver(), BitmapFactory.decodeFile(fileUri),null,null));
+                        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(holder.imgShare.getContext().getContentResolver(), BitmapFactory.decodeFile(fileUri), null, null));
                         // use intent to share image
                         Intent share = new Intent(Intent.ACTION_SEND);
                         share.setType("image/*");
@@ -176,9 +213,11 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
                         }
                         holder.imgShare.getContext().startActivity(Intent.createChooser(share, "Share Image"));
                     }
+
                     @Override
                     public void onBitmapFailed(Drawable errorDrawable) {
                     }
+
                     @Override
                     public void onPrepareLoad(Drawable placeHolderDrawable) {
                     }
@@ -190,6 +229,13 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
 
     }
 
+    private Date stringToDate(String startDate, String s) {
+        if (startDate == null) return null;
+        ParsePosition pos = new ParsePosition(0);
+        SimpleDateFormat simpledateformat = new SimpleDateFormat(s);
+        Date stringDate = simpledateformat.parse(startDate, pos);
+        return stringDate;
+    }
 
 
     private void UpdatePost(PostVO postVO) {
