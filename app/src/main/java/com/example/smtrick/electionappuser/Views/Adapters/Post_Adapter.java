@@ -1,7 +1,15 @@
 package com.example.smtrick.electionappuser.Views.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +43,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +64,7 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
     AppSharedPreference appSharedPreference;
     String item;
     ArrayList<String> Likes;
+    String fileUri;
 
 
     public Post_Adapter(Context context, List<PostVO> list) {
@@ -126,8 +139,56 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
             }
         });
 
+        holder.layoutShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareImage(postVO.getPostImage());
+            }
+
+            public void shareImage(String url) {
+                Picasso.with(holder.imgPost.getContext()).load(url).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        try {
+                            File mydir = new File(Environment.getExternalStorageDirectory() + "/Election");
+                            if (!mydir.exists()) {
+                                mydir.mkdirs();
+                            }
+
+                            fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+                            FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                            outputStream.flush();
+                            outputStream.close();
+                        } catch(IOException e) {
+                            e.printStackTrace();
+                        }
+                        Uri uri= Uri.parse(MediaStore.Images.Media.insertImage(holder.imgShare.getContext().getContentResolver(), BitmapFactory.decodeFile(fileUri),null,null));
+                        // use intent to share image
+                        Intent share = new Intent(Intent.ACTION_SEND);
+                        share.setType("image/*");
+                        share.putExtra(Intent.EXTRA_STREAM, uri);
+                        if (postVO.getPostName() != null) {
+                            share.putExtra(Intent.EXTRA_TEXT, postVO.getPostName());
+                        }
+                        holder.imgShare.getContext().startActivity(Intent.createChooser(share, "Share Image"));
+                    }
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                    }
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    }
+                });
+            }
+
+        });
+
 
     }
+
+
 
     private void UpdatePost(PostVO postVO) {
         postVO.setLikes(Likes);
