@@ -132,9 +132,11 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
                     flag = 0;
                     holder.imgLike.setImageResource(R.drawable.heart);
                     holder.txtLike.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
-                    int index = Likes.indexOf(appSharedPreference.getEmaiId());
-                    Likes.remove(index);
-                    UpdatePost(postVO);
+                    if (Likes.contains(appSharedPreference.getEmaiId())) {
+                        int index = Likes.indexOf(appSharedPreference.getEmaiId());
+                        Likes.remove(index);
+                        UpdatePost(postVO);
+                    }
                 }
             }
         });
