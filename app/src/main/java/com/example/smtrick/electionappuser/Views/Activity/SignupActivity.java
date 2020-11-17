@@ -77,10 +77,7 @@ public class SignupActivity extends AppCompatActivity {
                 final String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
                 final String username = Username.getText().toString().trim();
-//                final String storename = Storename.getText().toString().trim();
-//                final String status = "REQUEST";
 
-//                final String contact = userContact.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -145,7 +142,7 @@ public class SignupActivity extends AppCompatActivity {
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
+                                    Toast.makeText(SignupActivity.this, "The Email address is already registered",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }
