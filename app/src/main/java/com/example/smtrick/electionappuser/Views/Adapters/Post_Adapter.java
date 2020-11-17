@@ -125,22 +125,31 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
             //Convert long to String
             String dayDifference = Long.toString(differenceDates);
 
-            if (minutes > 60){
-                if (hours > 24){
+            if (minutes > 60) {
+                if (hours > 24) {
                     holder.txtDays.setText(dayDifference + " days ago");
-                }else {
-                    holder.txtDays.setText(String.valueOf(hours)+ " hour ago");
+                } else {
+                    holder.txtDays.setText(String.valueOf(hours) + " hour ago");
                 }
-            }else {
-                holder.txtDays.setText(String.valueOf(minutes)+ " minutes ago");
+            } else {
+                holder.txtDays.setText(String.valueOf(minutes) + " minutes ago");
             }
-
 
 
             Log.e("HERE", "HERE: " + dayDifference);
         }
 
         if (postVO.getLikes() != null) {
+
+            int count = postVO.getLikes().size();
+            if (count > 1000) {
+                float countFloat = count / 1000;
+                holder.txtLikesCunt.setText(String.valueOf(countFloat));
+
+            } else {
+                holder.txtLikesCunt.setText(String.valueOf(count));
+            }
+
             if (postVO.getLikes().contains(appSharedPreference.getEmaiId())) {
                 flag = 1;
                 holder.imgLike.setImageResource(R.drawable.heart_blue);
@@ -266,7 +275,7 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         public CardView cardView;
-        private TextView txtUsername, txtDays, txtDescription, txtLike, txtShare;
+        private TextView txtUsername, txtDays, txtDescription, txtLike, txtLikesCunt;
         private ImageView imgPost, imgLike, imgShare;
         private LinearLayout layoutLike, layoutShare;
 
@@ -280,6 +289,7 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
             txtDays = itemView.findViewById(R.id.txtPostdays);
             txtDescription = itemView.findViewById(R.id.txtDescription);
             txtLike = itemView.findViewById(R.id.txtLike);
+            txtLikesCunt = itemView.findViewById(R.id.txtLikeCounts);
 
             imgPost = itemView.findViewById(R.id.imgPost);
             imgLike = itemView.findViewById(R.id.imgLike);
