@@ -256,7 +256,7 @@ public class Post_Adapter extends RecyclerView.Adapter<Post_Adapter.ViewHolder> 
         leedRepository.updatePost(postId, leedStatusMap, new CallBack() {
             @Override
             public void onSuccess(Object object) {
-                Toast.makeText(context, "updated", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
