@@ -36,4 +36,11 @@
     <string name="title_activity_login">Sign in</string>
     <string name="loading">Loading&#8230;</string>
     <string name="PLEASE_WAIT">Please Wait&#8230;</string>
+
+    <string name="login_fail_try_again">Login fail, please try again with correct login details.</string>
+    <string name="MOBILE_NUMBER_SHOULD_NOT_BE_EMPTY">Mobile number should not be empty.</string>
+    <string name="SIGNING_IN">Signing in&#8230;</string>
+    <string name="INVALID_MOBILE_NUMBER">Invalid mobile number.</string>
+    <string name="PASSWORD_SHOULD_NOT_BE_EMPTY">Password should not be empty.</string>
+
 </resources>

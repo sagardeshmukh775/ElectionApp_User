@@ -15,8 +15,8 @@ public class AppSharedPreference {
     private String EMAIL_ID = "EMAIL_ID";
     private String LANGUAGE = "LANGUAGE";
     private String IS_USER_LOGGED_IN = "IS_USER_LOGGED_IN";
-
-
+    private String REG_ID = "REG_ID";
+    private String USER_ID = "USER_ID";
 
 
     public AppSharedPreference(Context context) {
@@ -35,6 +35,10 @@ public class AppSharedPreference {
                 editor.putString(USERID, (user.getUserid()));
             if (user.getLanguage() != null)
                 editor.putString(LANGUAGE, (user.getLanguage()));
+            if (user.getUserId() != null)
+                editor.putString(USER_ID, (user.getUserId()));
+            if (user.getRegId() != null)
+                editor.putString(REG_ID, (user.getRegId()));
 
         }
         editor.apply();
@@ -67,9 +71,11 @@ public class AppSharedPreference {
         return (sharedPref.getString(LANGUAGE, ""));
     }
 
+    public String getUserId() { return (sharedPref.getString(USER_ID, "2iXUwm71jKbi0yy3594PTOTHgbR2")); }
 
-
-
+    public String getRegId() {
+        return (sharedPref.getString(REG_ID, ""));
+    }
 
 
     public void setUserProfileImages(String imagePath) {
