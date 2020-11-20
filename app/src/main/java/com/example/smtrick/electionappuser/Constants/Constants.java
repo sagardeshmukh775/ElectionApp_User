@@ -45,6 +45,7 @@ public class Constants {
 
     public static final String ACTIVE_USER = "EEEE";
     public static final String DEACTIVE_USER = "REQUEST";
+    public static final String CUSTOMER_PREFIX = "CM-";
 
 
     public static final String AGENT_PREFIX = "MEM- ";

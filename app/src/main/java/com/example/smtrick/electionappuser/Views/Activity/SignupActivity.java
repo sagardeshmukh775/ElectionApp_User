@@ -6,161 +6,274 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smtrick.electionappuser.Callback.CallBack;
+import com.example.smtrick.electionappuser.Constants.Constants;
 import com.example.smtrick.electionappuser.R;
 import com.example.smtrick.electionappuser.Models.Users;
+import com.example.smtrick.electionappuser.Repositories.Impl.UserRepositoryImpl;
+import com.example.smtrick.electionappuser.Repositories.UserRepository;
+import com.example.smtrick.electionappuser.Utils.ExceptionUtil;
+import com.example.smtrick.electionappuser.Utils.Utility;
+import com.example.smtrick.electionappuser.Views.ProgressDialogClass;
+import com.example.smtrick.electionappuser.preferences.AppSharedPreference;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskExecutors;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class SignupActivity extends AppCompatActivity {
+import java.util.concurrent.TimeUnit;
 
-    private EditText inputEmail, inputPassword;
-    private EditText Username;
+import static com.example.smtrick.electionappuser.Constants.Constants.CUSTOMER_PREFIX;
 
-    private Button btnSignIn, btnSignUp, btnResetPassword;
-    private ProgressBar progressBar;
-    private FirebaseAuth auth;
+public class SignupActivity extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener {
+
+        TextView txtlogin, txttc;
+        Button btlogin, btnotp;
+        EditText etname, etmobile, etPassword, etotp,etEmail;
+        private UserRepository userRepository;
+        private ProgressDialogClass progressDialogClass;
+        private AppSharedPreference appSharedPreference;
+
+        private String verificationId;
+        private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        userRepository = new UserRepositoryImpl(this);
+        progressDialogClass = new ProgressDialogClass(this);
+        appSharedPreference = new AppSharedPreference(this);
+        mAuth = FirebaseAuth.getInstance();
 
-        btnSignIn = (Button) findViewById(R.id.sign_in_button);
-        btnSignUp = (Button) findViewById(R.id.sign_up_button);
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
+        btlogin = (Button) findViewById(R.id.buttonsubmit);
+        btnotp = (Button) findViewById(R.id.buttongenerateotp);
+        etname = (EditText) findViewById(R.id.edittextname);
+        etmobile = (EditText) findViewById(R.id.edittextmobile);
+        etPassword = (EditText) findViewById(R.id.edittextpassword);
+        etotp = (EditText) findViewById(R.id.edittextenterotp);
+        etEmail = (EditText) findViewById(R.id.edittextemail);
 
-        Username = (EditText) findViewById(R.id.username);
-//        Storename = (EditText) findViewById(R.id.designation);
-//        userContact = (EditText) findViewById(R.id.contact);
+        txttc = (TextView) findViewById(R.id.txttermsandconditions);
+        txtlogin = (TextView) findViewById(R.id.textViewLogin);
 
-        if (isNetworkAvailable()){
-//            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-        btnResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
-            }
-        });
+        setClickListners();
+        setTouchListner();
+    }
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
 
-                final String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-                final String username = Username.getText().toString().trim();
-
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressBar.setVisibility(View.VISIBLE);
-                //create user
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    auth.getCurrentUser().sendEmailVerification()
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        String userid = auth.getInstance().getCurrentUser().getUid();
-                                                        Users user = new Users();
-                                                        user.setName(username);
-                                                        user.setEmail(email);
-                                                        user.setUserid(userid);
-                                                        user.setLanguage("English");
-                                                        FirebaseDatabase.getInstance().getReference("users")
-                                                                .child(userid)
-                                                                .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                if (task.isSuccessful()) {
-
-                                                                    Toast.makeText(SignupActivity.this, "Registered Successfully, Please check your Email for verification",
-                                                                            Toast.LENGTH_LONG).show();
-
-                                                                } else {
-
-                                                                    Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            }
-                                                        });
-                                                    } else {
-
-                                                        Toast.makeText(SignupActivity.this, task.getException().getMessage(),
-                                                                Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
-                                }
-
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this, "The Email address is already registered",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-            }
-        });
+    private void setClickListners() {
+        btlogin.setOnClickListener(this);
+        txttc.setOnClickListener(this);
+        txtlogin.setOnClickListener(this);
+        btnotp.setOnClickListener(this);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        progressBar.setVisibility(View.GONE);
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.buttonsubmit:
+                String code = etotp.getText().toString();
+//                validateAndCreateUser();
+                verifyCode(code);
+                break;
+            case R.id.txttermsandconditions:
+                break;
+            case R.id.buttongenerateotp:
+                String phonenumber = "+91" + etmobile.getText().toString();
+                sendVerificationCode(phonenumber);
+                break;
+            case R.id.textViewLogin:
+                Intent intent1 = new Intent(SignupActivity.this, LoginActivity.class);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.backslide_in, R.anim.backslide_out);
+                break;
+        }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    private void setTouchListner() {
+
+        etname.setOnTouchListener(this);
+        etmobile.setOnTouchListener(this);
+        etotp.setOnTouchListener(this);
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        Animation zoomOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoomin);
+        view.startAnimation(zoomOutAnimation);
+        return false;
+    }
+
+    private void validateAndCreateUser() {
+        Users user = fillUserModel();
+        if (validate(user))
+            createUser(user);
+    }
+
+    private Users fillUserModel() {
+
+
+        Users user = new Users();
+        user.setUserId(Constants.USER_TABLE_REF.push().getKey());
+        user.setName(etname.getText().toString());
+        user.setMobileNumber(etmobile.getText().toString());
+        user.setPassword(etPassword.getText().toString());
+        user.setEmail(etEmail.getText().toString());
+        user.setUserId(Utility.generateAgentId(CUSTOMER_PREFIX));
+
+        return user;
+    }
+
+    private boolean validate(Users user) {
+        String validationMessage;
+        boolean isValid = true;
+        try {
+            if (Utility.isEmptyOrNull(user.getName())) {
+                validationMessage = "User Nmae Should not be empty";
+                etname.setError(validationMessage);
+                isValid = false;
+            }
+            if (Utility.isEmptyOrNull(user.getMobileNumber())) {
+                validationMessage = getString(R.string.MOBILE_NUMBER_SHOULD_NOT_BE_EMPTY);
+                etmobile.setError(validationMessage);
+                isValid = false;
+            } else if (!Utility.isValidMobileNumber(user.getMobileNumber())) {
+                validationMessage = getMessage(R.string.INVALID_MOBILE_NUMBER);
+                etmobile.setError(validationMessage);
+                isValid = false;
+            }
+            if (Utility.isEmptyOrNull(user.getPassword())) {
+                validationMessage = getString(R.string.PASSWORD_SHOULD_NOT_BE_EMPTY);
+                etPassword.setError(validationMessage);
+                isValid = false;
+            }
+        } catch (Exception e) {
+            isValid = false;
+            ExceptionUtil.logException(e);
+        }
+        return isValid;
+    }
+
+
+    private String getMessage(int id) {
+        return getString(id);
+    }
+
+    private void createUser(final Users user) {
+        progressDialogClass.showDialog(getMessage(R.string.loading), getMessage(R.string.PLEASE_WAIT));
+        userRepository.createUserData(user, new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                addUserDataToPreferences(user);
+                loginToApp();
+            }
+
+            @Override
+            public void onError(Object object) {
+                Utility.showMessage(SignupActivity.this, getMessage(R.string.registration_fail));
+                progressDialogClass.dismissDialog();
+            }
+        });
+    }
+
+    private void addUserDataToPreferences(Users user) {
+        appSharedPreference.addUserDetails(user);
+        appSharedPreference.createUserLoginSession();
+    }
+
+    private void loginToApp() {
+        Toast.makeText(SignupActivity.this, "User Register Successfully", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(SignupActivity.this, LoginActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+    }
+
+    private void sendVerificationCode(String number) {
+//        progressBar.setVisibility(View.VISIBLE);
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                number,
+                60,
+                TimeUnit.SECONDS,
+                TaskExecutors.MAIN_THREAD,
+                mCallBack
+        );
+
+    }
+
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks
+            mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+        @Override
+        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            super.onCodeSent(s, forceResendingToken);
+            verificationId = s;
+        }
+
+        @Override
+        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            String code = phoneAuthCredential.getSmsCode();
+            if (code != null) {
+                etotp.setText(code);
+                verifyCode(code);
+            }
+        }
+
+        @Override
+        public void onVerificationFailed(FirebaseException e) {
+            Toast.makeText(SignupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    };
+
+    private void verifyCode(String code) {
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+        signInWithCredential(credential);
+    }
+
+    private void signInWithCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            validateAndCreateUser();
+
+
+                        } else {
+                            Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

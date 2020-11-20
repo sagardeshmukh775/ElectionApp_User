@@ -30,4 +30,8 @@
     <color name="light_gray">#DCDCDC</color>
 
     <color name="like">#69f</color>
+    <item type="color" name="whitetextcolor">#ffffff</item>
+    <color name="Black">#000000</color>
+    <color name="Link_color">#346AF0</color>
+
 </resources>

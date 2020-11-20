@@ -42,5 +42,14 @@
     <string name="SIGNING_IN">Signing in&#8230;</string>
     <string name="INVALID_MOBILE_NUMBER">Invalid mobile number.</string>
     <string name="PASSWORD_SHOULD_NOT_BE_EMPTY">Password should not be empty.</string>
+    <string name="registration_fail">Registration fail, please try again.</string>
+    <string name="username">Username</string>
+    <string name="phone">Mobile Number</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="back_to_login">Back to Login</string>
+
+    <string name="hint_mobile">Mobile Number</string>
+
 
 </resources>

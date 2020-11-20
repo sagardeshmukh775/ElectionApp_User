@@ -1,39 +1,59 @@
 package com.example.smtrick.electionappuser.Views.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smtrick.electionappuser.Models.Users;
 import com.example.smtrick.electionappuser.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    private EditText inputEmail;
+    private EditText inputNumber;
     private Button btnReset, btnBack;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
+    private DatabaseReference mDatabase;
+    String key;
+    LinearLayout layout_Update;
+    EditText inputPassword;
+    Button btnUpdatePAssword;
+    Users user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        inputEmail = (EditText) findViewById(R.id.email);
+        inputNumber = (EditText) findViewById(R.id.number);
+//        inputName = (EditText) findViewById(R.id.name);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
         btnBack = (Button) findViewById(R.id.btn_back);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        auth = FirebaseAuth.getInstance();
+        inputPassword = (EditText) findViewById(R.id.password);
+        layout_Update = (LinearLayout) findViewById(R.id.layout_update_password);
+        btnUpdatePAssword = (Button) findViewById(R.id.btn_update_password);
+
+        layout_Update.setVisibility(View.GONE);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,31 +62,76 @@ public class ResetPasswordActivity extends AppCompatActivity {
             }
         });
 
-       btnReset.setOnClickListener(new View.OnClickListener() {
+        btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
+                String number = inputNumber.getText().toString().trim();
+//                String name = inputNumber.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(number)) {
+                    Toast.makeText(getApplication(), "Enter your registered Mobile Number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+//                if (TextUtils.isEmpty(name)) {
+//                    Toast.makeText(getApplication(), "Enter your registered Name", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+                progressBar.setVisibility(View.VISIBLE);
+
+                Query query6 = FirebaseDatabase.getInstance().getReference("users")
+                        .orderByChild("mobileNumber")
+                        .equalTo(number);
+
+                query6.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if (dataSnapshot.hasChildren()) {
+                            for (DataSnapshot Snapshot : dataSnapshot.getChildren()) {
+                                user = Snapshot.getValue(Users.class);
+                                if (user != null) {
+                                    layout_Update.setVisibility(View.VISIBLE);
+                                    key = user.getUserId();
+                                    progressBar.setVisibility(View.GONE);
+                                } else {
+                                    Toast.makeText(ResetPasswordActivity.this, "Sorry No User Found", Toast.LENGTH_SHORT).show();
+                                    layout_Update.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        }else {
+                            Toast.makeText(ResetPasswordActivity.this, "Sorry No User Found", Toast.LENGTH_SHORT).show();
+                            layout_Update.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+
+        btnUpdatePAssword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String passwprd = inputPassword.getText().toString().trim();
+
+                if (TextUtils.isEmpty(passwprd)) {
+                    Toast.makeText(getApplication(), "Enter your Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
-                auth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(ResetPasswordActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
-                                }
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                mDatabase.child("users").child(key).child("password").setValue(passwprd);
+                Toast.makeText(ResetPasswordActivity.this, "Password Updated", Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(ResetPasswordActivity.this,LoginActivity.class);
+                startActivity(intent);
 
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
             }
         });
     }

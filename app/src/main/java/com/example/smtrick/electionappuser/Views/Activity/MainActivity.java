@@ -31,6 +31,7 @@ import com.example.smtrick.electionappuser.Repositories.Impl.LeedRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.LeedRepository;
 import com.example.smtrick.electionappuser.Models.Users;
 import com.example.smtrick.electionappuser.Views.Fragments.Tab_Fragment;
+import com.example.smtrick.electionappuser.preferences.AppSharedPreference;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private Fragment selectedFragement;
     private FirebaseAuth firebaseAuth;
+    private AppSharedPreference appSharedPreference;
     //user
 
     private String uid;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity
         }
         leedRepository = new LeedRepositoryImpl();
         user = new Users();
+        appSharedPreference = new AppSharedPreference(this);
         // NOTE : Just remove the fab button
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -245,6 +248,7 @@ public class MainActivity extends AppCompatActivity
             // clearDataWithSignOut();
             FirebaseAuth.getInstance().signOut();
             finish();
+            appSharedPreference.clear();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
         }

@@ -1,158 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-   >
+    android:layout_height="wrap_content"
+    android:background="@color/whitetextcolor"
+    android:padding="10dp">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:layout_height="wrap_content">
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="true"
-                android:hint="User Name"
-                android:imeOptions="actionUnspecified"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/input_register_bg"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<EditText-->
-                <!--android:id="@+id/designation"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:focusableInTouchMode="true"-->
-                <!--android:hint="Deignation"-->
-                <!--android:imeActionId="@+id/login"-->
-                <!--android:imeOptions="actionUnspecified"-->
-                <!--android:maxLines="1"-->
-                <!--android:singleLine="true"-->
-                <!--android:textColor="@color/input_register_bg"-->
-                <!--/>-->
-
-        <!--</android.support.design.widget.TextInputLayout>-->
-
-
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<EditText-->
-                <!--android:id="@+id/contact"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:focusableInTouchMode="true"-->
-                <!--android:hint="Contact"-->
-                <!--android:imeActionId="@+id/login"-->
-                <!--android:imeOptions="actionUnspecified"-->
-                <!--android:inputType="number"-->
-                <!--android:maxLines="1"-->
-                <!--android:singleLine="true"-->
-                <!--android:textColor="@color/input_register_bg"-->
-                <!--/>-->
-
-        <!--</android.support.design.widget.TextInputLayout>-->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/input_register_bg"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="true"
-                android:hint="@string/hint_password"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/input_register_bg"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/sign_up_button"
-            style="?android:textAppearanceSmall"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorAccent"
-            android:text="@string/action_sign_in_short"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="8dp">
 
-        <Button
-            android:id="@+id/btn_reset_password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@null"
-            android:text="@string/btn_forgot_password"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:textColor="@color/colorAccent" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/Black"
+                android:textColorHint="@color/Black"
+                app:passwordToggleTint="@color/Black">
 
-        <!-- Link to Login Screen -->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittextname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:hint="@string/username"
+                    android:inputType="textPersonName"
+                    android:padding="10sp"
+                    android:textColor="@color/hederbackground"
+                    android:textColorHint="@color/hederbackground" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/sign_in_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dip"
-            android:background="@null"
-            android:text="@string/btn_link_to_login"
-            android:textAllCaps="false"
-            android:textColor="@color/colorAccent"
-            android:textSize="16dp"
-            android:textStyle="bold"/>
-    </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
-        android:visibility="gone" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/Black"
+                android:textColorHint="@color/Black"
+                app:passwordToggleTint="@color/Black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittextemail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:padding="10sp"
+                    android:textColor="@color/hederbackground"
+                    android:textColorHint="@color/hederbackground" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/Black"
+                android:textColorHint="@color/Black"
+                app:passwordToggleTint="@color/Black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittextmobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:hint="@string/phone"
+                    android:inputType="number"
+                    android:padding="10sp"
+                    android:textColor="@color/hederbackground"
+                    android:textColorHint="@color/hederbackground" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/Black"
+                android:textColorHint="@color/Black"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/Black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittextpassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_border"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="10sp"
+                    android:textColor="@color/hederbackground"
+                    android:textColorHint="@color/hederbackground" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+            <Button
+                android:id="@+id/buttongenerateotp"
+                style="@style/DefaultButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:layout_weight="1"
+                android:background="@drawable/view_dropshadow2"
+                android:text="Generate OTP"
+                android:textColor="@color/whitetextcolor" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:backgroundTint="@color/Black"
+                android:textColorHint="@color/Black"
+                app:passwordToggleTint="@color/Black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittextenterotp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/edittext_border"
+                    android:gravity="center"
+                    android:hint="Enter OTP"
+                    android:padding="10dp"
+                    android:textColor="@color/hederbackground"
+                    android:inputType="number"
+                    android:textColorHint="@color/hederbackground" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/txttermsandconditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Terms and Conditions !"
+                android:textColor="#0000A0"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/buttonsubmit"
+                style="@style/DefaultButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/view_dropshadow2"
+                android:text="@string/register"
+                android:textColor="@color/whitetextcolor" />
+
+            <TextView
+                android:id="@+id/textViewLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/back_to_login"
+                android:textColor="@color/input_register_hint" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

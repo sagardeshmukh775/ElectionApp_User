@@ -8,14 +8,14 @@ import java.util.Map;
 
 public class Users implements Serializable {
 
-    public String name, email, userid, language, userId, regId, password;
+    public String name, email, userid, language, userId, regId, password,mobileNumber;
     ;
 
     public Users() {
 
     }
 
-    Users(String name, String email, String userid, String language, String userId, String regId, String password) {
+    Users(String name, String email, String userid, String language, String userId, String regId, String password,String mobileNumber) {
         this.name = name;
         this.email = email;
         this.userid = userid;
@@ -23,6 +23,7 @@ public class Users implements Serializable {
         this.userId = userId;
         this.regId = regId;
         this.password = password;
+        this.mobileNumber = mobileNumber;
     }
 
     public String getName() {
@@ -81,6 +82,14 @@ public class Users implements Serializable {
         this.password = password;
     }
 
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
     @Exclude
     public Map getLeedStatusMap() {
         Map<String, Object> leedMap = new HashMap();
@@ -92,6 +101,7 @@ public class Users implements Serializable {
         leedMap.put("userId", getUserid());
         leedMap.put("regId", getRegId());
         leedMap.put("password", getPassword());
+        leedMap.put("mobileNumber", getMobileNumber());
 
         return leedMap;
 
