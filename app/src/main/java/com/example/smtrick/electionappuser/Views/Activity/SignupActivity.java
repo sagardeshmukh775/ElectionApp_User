@@ -145,7 +145,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
         user.setMobileNumber(etmobile.getText().toString());
         user.setPassword(etPassword.getText().toString());
         user.setEmail(etEmail.getText().toString());
-        user.setUserId(Utility.generateAgentId(CUSTOMER_PREFIX));
+        user.setRegId(Utility.generateAgentId(CUSTOMER_PREFIX));
 
         return user;
     }

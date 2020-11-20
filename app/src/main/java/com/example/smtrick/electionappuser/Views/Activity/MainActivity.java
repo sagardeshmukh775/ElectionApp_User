@@ -25,12 +25,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.smtrick.electionappuser.Callback.CallBack;
 import com.example.smtrick.electionappuser.Listeners.OnFragmentInteractionListener;
 import com.example.smtrick.electionappuser.R;
 import com.example.smtrick.electionappuser.Repositories.Impl.LeedRepositoryImpl;
+import com.example.smtrick.electionappuser.Repositories.Impl.UserRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.LeedRepository;
 import com.example.smtrick.electionappuser.Models.Users;
+import com.example.smtrick.electionappuser.Repositories.UserRepository;
 import com.example.smtrick.electionappuser.Views.Fragments.Tab_Fragment;
+import com.example.smtrick.electionappuser.Views.ProgressDialogClass;
 import com.example.smtrick.electionappuser.preferences.AppSharedPreference;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,6 +66,8 @@ public class MainActivity extends AppCompatActivity
     private Menu top_menu;
     Users user;
     LeedRepository leedRepository;
+    UserRepository userRepository;
+    ProgressDialogClass progressDialog;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,8 @@ public class MainActivity extends AppCompatActivity
         leedRepository = new LeedRepositoryImpl();
         user = new Users();
         appSharedPreference = new AppSharedPreference(this);
+        userRepository = new UserRepositoryImpl();
+        progressDialog = new ProgressDialogClass(this);
         // NOTE : Just remove the fab button
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -95,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //NOTE:  Checks first item in the navigation drawer initially
-        navigationView.setCheckedItem(R.id.memberregistration);
+        navigationView.setCheckedItem(R.id.home);
         View headerview = navigationView.getHeaderView(0);
         username = (TextView) headerview.findViewById(R.id.username);
         userEmail = (TextView) headerview.findViewById(R.id.useremail);
@@ -168,40 +176,32 @@ public class MainActivity extends AppCompatActivity
 
     private void getCurrentuserdetails() {
 
-        try {
-            firebaseAuth = FirebaseAuth.getInstance();
-
-            Fuser = firebaseAuth.getCurrentUser();
-            uid = Fuser.getUid();
-            uid = Fuser.getDisplayName();
-            databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    for (DataSnapshot usersnapshot : dataSnapshot.getChildren()) {
-                        acctname = usersnapshot.child("name").getValue(String.class);
-                        acctemail = usersnapshot.child("email").getValue(String.class);
-                        Language = usersnapshot.child("language").getValue(String.class);
-                        Userid = usersnapshot.child("userid").getValue(String.class);
-                        username.setText(acctname);
-                        userEmail.setText(acctemail);
-                        if (Language.equalsIgnoreCase("Marathi")){
+        progressDialog.showDialog(getString(R.string.loading), getString(R.string.PLEASE_WAIT));
+        userRepository.readUserByUserId(appSharedPreference.getUserId(), new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                if (object != null) {
+                    user = (Users) object;
+                    acctname = user.getName();
+                    acctemail = user.getEmail();
+                    Language = user.getLanguage();
+                    Userid = user.getUserId();
+                    username.setText(acctname);
+                    userEmail.setText(acctemail);
+                    if (Language != null) {
+                        if (Language.equalsIgnoreCase("Marathi")) {
                             setLanguage();
                         }
                     }
+                    progressDialog.dismissDialog();
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onError(Object object) {
 
-                    Toast.makeText(MainActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-
-                }
-            });
-
-        } catch (Exception e) {
-        }
+            }
+        });
     }
 
     private void setLanguage() {
@@ -224,23 +224,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         //NOTE: creating fragment object
         Fragment fragment = null;
-        if (id == R.id.memberregistration) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
-//                    new Fragment_Add_Product_names()).commit();
+        if (id == R.id.home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame,
+                    new Tab_Fragment()).commit();
 
-
-        } else if (id == R.id.relationform) {
-
-
-
-        }else if (id == R.id.viewmembers) {
-
-
-
-        } else if (id == R.id.reports) {
-
-
-        }else if (id == R.id.settings) {
 
         }
         else if (id == R.id.logout) {

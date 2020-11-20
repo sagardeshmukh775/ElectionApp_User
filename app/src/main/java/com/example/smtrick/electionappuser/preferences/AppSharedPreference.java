@@ -31,12 +31,11 @@ public class AppSharedPreference {
                 editor.putString(USERNAME, (user.getName()));
             if (user.getEmail() != null)
                 editor.putString(EMAIL_ID, (user.getEmail()));
-            if (user.getUserid() != null)
-                editor.putString(USERID, (user.getUserid()));
+            if (user.getUserId() != null)
+                editor.putString(USERID, (user.getUserId()));
             if (user.getLanguage() != null)
                 editor.putString(LANGUAGE, (user.getLanguage()));
-            if (user.getUserId() != null)
-                editor.putString(USER_ID, (user.getUserId()));
+
             if (user.getRegId() != null)
                 editor.putString(REG_ID, (user.getRegId()));
 
@@ -71,7 +70,7 @@ public class AppSharedPreference {
         return (sharedPref.getString(LANGUAGE, ""));
     }
 
-    public String getUserId() { return (sharedPref.getString(USER_ID, "2iXUwm71jKbi0yy3594PTOTHgbR2")); }
+    public String getUserId() { return (sharedPref.getString(USER_ID, "")); }
 
     public String getRegId() {
         return (sharedPref.getString(REG_ID, ""));

@@ -8,17 +8,16 @@ import java.util.Map;
 
 public class Users implements Serializable {
 
-    public String name, email, userid, language, userId, regId, password,mobileNumber;
+    public String name, email,  language, userId, regId, password,mobileNumber;
     ;
 
     public Users() {
 
     }
 
-    Users(String name, String email, String userid, String language, String userId, String regId, String password,String mobileNumber) {
+    Users(String name, String email, String language, String userId, String regId, String password,String mobileNumber) {
         this.name = name;
         this.email = email;
-        this.userid = userid;
         this.language = language;
         this.userId = userId;
         this.regId = regId;
@@ -42,13 +41,6 @@ public class Users implements Serializable {
         this.email = email;
     }
 
-    public String getUserid() {
-        return userid;
-    }
-
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
 
     public String getLanguage() {
         return language;
@@ -56,14 +48,6 @@ public class Users implements Serializable {
 
     public void setLanguage(String language) {
         this.language = language;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getRegId() {
@@ -90,15 +74,22 @@ public class Users implements Serializable {
         this.mobileNumber = mobileNumber;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Exclude
     public Map getLeedStatusMap() {
         Map<String, Object> leedMap = new HashMap();
 
         leedMap.put("name", getName());
         leedMap.put("email", getEmail());
-        leedMap.put("userid", getUserid());
         leedMap.put("language", getLanguage());
-        leedMap.put("userId", getUserid());
+        leedMap.put("userId", getUserId());
         leedMap.put("regId", getRegId());
         leedMap.put("password", getPassword());
         leedMap.put("mobileNumber", getMobileNumber());
