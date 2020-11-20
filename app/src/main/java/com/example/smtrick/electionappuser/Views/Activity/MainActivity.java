@@ -176,32 +176,35 @@ public class MainActivity extends AppCompatActivity
 
     private void getCurrentuserdetails() {
 
-        progressDialog.showDialog(getString(R.string.loading), getString(R.string.PLEASE_WAIT));
-        userRepository.readUserByUserId(appSharedPreference.getUserId(), new CallBack() {
-            @Override
-            public void onSuccess(Object object) {
-                if (object != null) {
-                    user = (Users) object;
-                    acctname = user.getName();
-                    acctemail = user.getEmail();
-                    Language = user.getLanguage();
-                    Userid = user.getUserId();
-                    username.setText(acctname);
-                    userEmail.setText(acctemail);
-                    if (Language != null) {
-                        if (Language.equalsIgnoreCase("Marathi")) {
-                            setLanguage();
-                        }
-                    }
-                    progressDialog.dismissDialog();
-                }
-            }
+        username.setText(appSharedPreference.getUserName());
+        userEmail.setText(appSharedPreference.getMobileNo());
 
-            @Override
-            public void onError(Object object) {
-
-            }
-        });
+//        progressDialog.showDialog(getString(R.string.loading), getString(R.string.PLEASE_WAIT));
+//        userRepository.readUserByUserId(appSharedPreference.getUserId(), new CallBack() {
+//            @Override
+//            public void onSuccess(Object object) {
+//                if (object != null) {
+//                    user = (Users) object;
+//                    acctname = user.getName();
+//                    acctemail = user.getEmail();
+//                    Language = user.getLanguage();
+//                    Userid = user.getUserId();
+//                    username.setText(acctname);
+//                    userEmail.setText(acctemail);
+//                    if (Language != null) {
+//                        if (Language.equalsIgnoreCase("Marathi")) {
+//                            setLanguage();
+//                        }
+//                    }
+//                    progressDialog.dismissDialog();
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Object object) {
+//
+//            }
+//        });
     }
 
     private void setLanguage() {

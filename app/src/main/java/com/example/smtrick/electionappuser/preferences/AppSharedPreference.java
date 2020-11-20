@@ -11,12 +11,12 @@ public class AppSharedPreference {
     private Context context;
     private SharedPreferences.Editor editor;
     private String USERNAME = "USERNAME";
-    private String USERID = "USERID";
     private String EMAIL_ID = "EMAIL_ID";
     private String LANGUAGE = "LANGUAGE";
     private String IS_USER_LOGGED_IN = "IS_USER_LOGGED_IN";
     private String REG_ID = "REG_ID";
     private String USER_ID = "USER_ID";
+    private String MOBILE_NO = "MOBILE_NO";
 
 
     public AppSharedPreference(Context context) {
@@ -32,12 +32,14 @@ public class AppSharedPreference {
             if (user.getEmail() != null)
                 editor.putString(EMAIL_ID, (user.getEmail()));
             if (user.getUserId() != null)
-                editor.putString(USERID, (user.getUserId()));
+                editor.putString(USER_ID, (user.getUserId()));
             if (user.getLanguage() != null)
                 editor.putString(LANGUAGE, (user.getLanguage()));
 
             if (user.getRegId() != null)
                 editor.putString(REG_ID, (user.getRegId()));
+            if (user.getMobileNumber() != null)
+                editor.putString(MOBILE_NO, (user.getMobileNumber()));
 
         }
         editor.apply();
@@ -55,7 +57,7 @@ public class AppSharedPreference {
     }
 
     public String getuserId() {
-        return (sharedPref.getString(USERID, ""));
+        return (sharedPref.getString(USER_ID, ""));
     }
 
     public boolean getUserLoginStatus() {
@@ -74,6 +76,10 @@ public class AppSharedPreference {
 
     public String getRegId() {
         return (sharedPref.getString(REG_ID, ""));
+    }
+
+    public String getMobileNo() {
+        return (sharedPref.getString(MOBILE_NO, ""));
     }
 
 
