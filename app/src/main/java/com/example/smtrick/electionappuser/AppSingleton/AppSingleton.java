@@ -57,21 +57,21 @@ public class AppSingleton {
         return new String[]{"Select Occupation", "Salaried", "Businessman"};
     }
 
-    public void setNotificationManager() {
-        try {
-            mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(context);
-            mBuilder.setContentTitle(context.getString(R.string.file_uploading_progress))
-                    .setContentText(context.getString(R.string.notification_message))
-                    .setSmallIcon(R.drawable.baseline_cloud_upload_black_24)
-                    .setOngoing(true);
-            mBuilder.setProgress(0, 0, true);
-            // Issues the notification
-            mNotifyManager.notify(notificationId, mBuilder.build());
-        } catch (Exception e) {
-            ExceptionUtil.logException(e);
-        }
-    }
+//    public void setNotificationManager() {
+//        try {
+//            mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//            mBuilder = new NotificationCompat.Builder(context);
+//            mBuilder.setContentTitle(context.getString(R.string.file_uploading_progress))
+//                    .setContentText(context.getString(R.string.notification_message))
+//                    .setSmallIcon(R.drawable.baseline_cloud_upload_black_24)
+//                    .setOngoing(true);
+//            mBuilder.setProgress(0, 0, true);
+//            // Issues the notification
+//            mNotifyManager.notify(notificationId, mBuilder.build());
+//        } catch (Exception e) {
+//            ExceptionUtil.logException(e);
+//        }
+//    }
 
     public void updateProgress(int uploaded, int total, int percent) {
         try {

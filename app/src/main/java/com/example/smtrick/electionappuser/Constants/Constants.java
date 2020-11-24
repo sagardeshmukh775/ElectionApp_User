@@ -17,6 +17,12 @@ public class Constants {
     public static final FirebaseStorage STORAGE = FirebaseStorage.getInstance();
     public static final StorageReference STORAGE_REFERENCE = STORAGE.getReference();
 
+    public static final String STORAGE_PATH = "STORAGE_PATH";
+    public static final String BITMAP_IMG = "BITMAP_IMG";
+    public static final String LEED_ID = "LEED_ID";
+    public static final String IMAGE_COUNT = "IMAGE_COUNT";
+    public static final String TOTAL_IMAGE_COUNT = "TOTAL_IMAGE_COUNT";
+
     public static final String STORAGE_PATH_UPLOADS = "NewImage/";
     public static final String DATABASE_PATH_UPLOADS = "NewImage";
     public static final String DATABASE_PATH_PATIENTS = "Patients";
