@@ -3,29 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@color/toolbar"
-    android:gravity="center"
+    android:background="@drawable/drower2"
+    android:gravity="bottom"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:layout_gravity="center"
-        android:gravity="center_vertical"
-        android:textColor="@color/white"
-        android:text="User Name"
-        />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_view_profile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/user"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="20dp"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="3dp" />
 
-    <TextView
-        android:id="@+id/useremail"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_vertical"
-        android:text="Email id"
-        android:textColor="@color/white"
-        />
+        android:layout_gravity="bottom"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginBottom="5dp"
+            android:text="User Name"
+            android:textColor="@color/mainTextColor"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/useremail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Email id"
+            android:textColor="@color/mainTextColor" />
+
+    </LinearLayout>
 
 </LinearLayout>

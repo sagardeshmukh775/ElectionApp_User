@@ -1,21 +1,14 @@
 package com.example.smtrick.electionappuser.Views.Activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +23,7 @@ import com.example.smtrick.electionappuser.Repositories.Impl.UserRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.UserRepository;
 import com.example.smtrick.electionappuser.Utils.ExceptionUtil;
 import com.example.smtrick.electionappuser.Utils.Utility;
-import com.example.smtrick.electionappuser.Views.ProgressDialogClass;
+import com.example.smtrick.electionappuser.Views.Dialog.ProgressDialogClass;
 import com.example.smtrick.electionappuser.preferences.AppSharedPreference;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +33,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 

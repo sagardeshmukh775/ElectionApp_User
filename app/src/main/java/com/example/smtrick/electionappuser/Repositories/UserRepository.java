@@ -17,5 +17,7 @@ public interface UserRepository {
 
     void createUserData(final Users userModel, final CallBack callback);
 
+    void updateUser(final String regId, final Map userMap, final CallBack callback);
+
 
 }

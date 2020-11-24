@@ -128,4 +128,20 @@ public class UserRepositoryImpl extends FirebaseTemplateRepository implements Us
         });
     }
 
+    @Override
+    public void updateUser(String userId, Map userMap, final CallBack callBack) {
+        final DatabaseReference databaseReference = Constants.USER_TABLE_REF.child(userId);
+        fireBaseUpdateChildren(databaseReference, userMap, new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                callBack.onSuccess(object);
+            }
+
+            @Override
+            public void onError(Object object) {
+                callBack.onError(object);
+            }
+        });
+    }
+
 }

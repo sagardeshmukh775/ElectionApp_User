@@ -1,6 +1,5 @@
 package com.example.smtrick.electionappuser.Views.Activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,9 +22,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.smtrick.electionappuser.Callback.CallBack;
 import com.example.smtrick.electionappuser.Listeners.OnFragmentInteractionListener;
 import com.example.smtrick.electionappuser.R;
@@ -34,21 +36,17 @@ import com.example.smtrick.electionappuser.Repositories.LeedRepository;
 import com.example.smtrick.electionappuser.Models.Users;
 import com.example.smtrick.electionappuser.Repositories.UserRepository;
 import com.example.smtrick.electionappuser.Views.Fragments.Tab_Fragment;
-import com.example.smtrick.electionappuser.Views.ProgressDialogClass;
+import com.example.smtrick.electionappuser.Views.Dialog.ProgressDialogClass;
 import com.example.smtrick.electionappuser.preferences.AppSharedPreference;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity
         implements OnFragmentInteractionListener,
-        NavigationView.OnNavigationItemSelectedListener{
+        NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView navigationView;
     private Fragment selectedFragement;
@@ -62,13 +60,15 @@ public class MainActivity extends AppCompatActivity
 
     private TextView userEmail;
     private TextView username;
-    String Language,Userid,acctemail,acctname;
+    private ImageView imgProfile;
+    String Language, Userid, acctemail, acctname;
     private Menu top_menu;
     Users user;
     LeedRepository leedRepository;
     UserRepository userRepository;
     ProgressDialogClass progressDialog;
-    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (isNetworkAvailable()){
+        if (isNetworkAvailable()) {
 //            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
         leedRepository = new LeedRepositoryImpl();
@@ -94,9 +94,9 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         Boolean per = isStoragePermissionGranted();
-        if (per){
+        if (per) {
             //   Toast.makeText(this, "Storage Premission Granted", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(this, "Storage Premission Required", Toast.LENGTH_SHORT).show();
         }
 
@@ -107,6 +107,15 @@ public class MainActivity extends AppCompatActivity
         View headerview = navigationView.getHeaderView(0);
         username = (TextView) headerview.findViewById(R.id.username);
         userEmail = (TextView) headerview.findViewById(R.id.useremail);
+        imgProfile = (ImageView) headerview.findViewById(R.id.image_view_profile);
+
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Activity_Update_Profile.class);
+                startActivity(intent);
+            }
+        });
 
         FirebaseMessaging.getInstance().subscribeToTopic("Products");
 
@@ -146,7 +155,7 @@ public class MainActivity extends AppCompatActivity
                 if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         == PackageManager.PERMISSION_GRANTED) {
                     return true;
-                }else {
+                } else {
                     return false;
                 }
             }
@@ -157,7 +166,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {
                 if (grantResults.length > 0
@@ -179,32 +188,24 @@ public class MainActivity extends AppCompatActivity
         username.setText(appSharedPreference.getUserName());
         userEmail.setText(appSharedPreference.getMobileNo());
 
-//        progressDialog.showDialog(getString(R.string.loading), getString(R.string.PLEASE_WAIT));
-//        userRepository.readUserByUserId(appSharedPreference.getUserId(), new CallBack() {
-//            @Override
-//            public void onSuccess(Object object) {
-//                if (object != null) {
-//                    user = (Users) object;
-//                    acctname = user.getName();
-//                    acctemail = user.getEmail();
-//                    Language = user.getLanguage();
-//                    Userid = user.getUserId();
-//                    username.setText(acctname);
-//                    userEmail.setText(acctemail);
-//                    if (Language != null) {
-//                        if (Language.equalsIgnoreCase("Marathi")) {
-//                            setLanguage();
-//                        }
-//                    }
-//                    progressDialog.dismissDialog();
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Object object) {
-//
-//            }
-//        });
+        progressDialog.showDialog(getString(R.string.loading), getString(R.string.PLEASE_WAIT));
+        userRepository.readUserByUserId(appSharedPreference.getUserId(), new CallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                if (object != null) {
+                    user = (Users) object;
+
+                    Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.user).into(imgProfile);
+
+                    progressDialog.dismissDialog();
+                }
+            }
+
+            @Override
+            public void onError(Object object) {
+
+            }
+        });
     }
 
     private void setLanguage() {
@@ -232,8 +233,7 @@ public class MainActivity extends AppCompatActivity
                     new Tab_Fragment()).commit();
 
 
-        }
-        else if (id == R.id.logout) {
+        } else if (id == R.id.logout) {
 
             // clearDataWithSignOut();
             FirebaseAuth.getInstance().signOut();
@@ -278,11 +278,20 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    public class ImageUploadReceiver extends BroadcastReceiver {
+        public static final String PROCESS_RESPONSE = "com.smartloan.smtrick.smart_loan.intent.action.UPDATE_USER_DATA";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getCurrentuserdetails();
+        }
+    }
+
 }

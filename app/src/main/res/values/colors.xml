@@ -8,11 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="colorPrimary">#20C088</color>
+    <color name="colorPrimary">#1DD5B9</color>
     <color name="colorPrimaryDark">#a8a8a8</color>
-    <color name="colorAccent">#20C088</color>
+    <color name="colorAccent">#1DD5B9</color>
 
-    <item type="color" name="hederbackground">#ec6f70</item>
+    <item type="color" name="hederbackground">#1DD5B9</item>
     <color name="mainTextColor">#343d43</color>
 
     <color name="input_login">#222222</color>
@@ -25,7 +25,7 @@
     <color name="green">#008000</color>
     <color name="red">#FF0000</color>
 
-    <color name="toolbar">#20C088</color>
+    <color name="toolbar">#1DD5B9</color>
 
     <color name="light_gray">#DCDCDC</color>
 
@@ -33,5 +33,7 @@
     <item type="color" name="whitetextcolor">#ffffff</item>
     <color name="Black">#000000</color>
     <color name="Link_color">#346AF0</color>
+
+    <color name="drower_color">#ffffff</color>
 
 </resources>

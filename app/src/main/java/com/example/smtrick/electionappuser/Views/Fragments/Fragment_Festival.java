@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,7 +17,7 @@ import com.example.smtrick.electionappuser.R;
 import com.example.smtrick.electionappuser.Repositories.Impl.LeedRepositoryImpl;
 import com.example.smtrick.electionappuser.Repositories.LeedRepository;
 import com.example.smtrick.electionappuser.Views.Adapters.Post_Adapter;
-import com.example.smtrick.electionappuser.Views.ProgressDialogClass;
+import com.example.smtrick.electionappuser.Views.Dialog.ProgressDialogClass;
 
 import java.util.ArrayList;
 

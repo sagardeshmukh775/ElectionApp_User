@@ -24,7 +24,7 @@
     <string name="btn_remove">Remove</string>
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
-    <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+    <string name="forgot_password_msg">We just need your registered Mobile Number to sent you password reset instructions.</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -51,5 +51,10 @@
 
     <string name="hint_mobile">Mobile Number</string>
 
+    <string name="file_uploading_progress">Uploading in progress</string>
+    <string name="file_uploading_complited">Uploading to server done </string>
+    <string name="file_uploading_complited_message">Total uploaded files :&#160; </string>
+    <string name="notification_message">Don\'t close the app.</string>
+    <string name="data_updation_fails_message">Data updation failed, please try again.</string>
 
 </resources>

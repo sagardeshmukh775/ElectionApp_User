@@ -3,6 +3,8 @@ package com.example.smtrick.electionappuser.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Calendar;
 
@@ -12,12 +14,16 @@ import java.util.Calendar;
 
 public class Constants {
 
+    public static final FirebaseStorage STORAGE = FirebaseStorage.getInstance();
+    public static final StorageReference STORAGE_REFERENCE = STORAGE.getReference();
+
     public static final String STORAGE_PATH_UPLOADS = "NewImage/";
     public static final String DATABASE_PATH_UPLOADS = "NewImage";
     public static final String DATABASE_PATH_PATIENTS = "Patients";
     public static final String CHANNEL_ID = "samar app";
     public static final String CHANNEL_NAME = "samr app";
     public static final String CHANNEL_DESC = "samar app notification";
+    public static final String STORAGE_PATH_PROFILE = "Profile/";
 
     public static final String GLOBAL_DATE_FORMATE = "dd MMM yyyy hh:mm a";
     public static final String CALANDER_DATE_FORMATE = "dd/MM/yy";

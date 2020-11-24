@@ -1,4 +1,4 @@
-package com.example.smtrick.electionappuser.Views;
+package com.example.smtrick.electionappuser.Views.Dialog;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
