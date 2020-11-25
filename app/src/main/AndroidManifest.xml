@@ -16,12 +16,12 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <activity
             android:name=".Views.Activity.SplashScreen"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,12 +54,6 @@
         <service
             android:name=".Services.MySMSservice"
             android:exported="false" />
-
-        <service
-            android:name=".Services.ImageUploadIntentService"
-            android:exported="false"
-            android:stopWithTask="false" />
-
 
         <activity
             android:name=".Views.Activity.ImagePickerActivity"

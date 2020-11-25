@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.smtrick.electionappuser.AppSingleton.AppSingleton;
@@ -43,7 +44,7 @@ public class Activity_Update_Profile extends AppCompatActivity implements View.O
 
     private ImageView imgProfile;
     private Button btnUpdate;
-    private EditText edtName, edtPassword, edtAddress, edtMobileNumber;
+    private EditText edtName, edtPassword, edtEmail, edtMobileNumber;
 
     UserRepository userRepository;
     AppSharedPreference appSharedPreference;
@@ -68,8 +69,12 @@ public class Activity_Update_Profile extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__update__profile);
 
-//        assert getSupportActionBar() != null;   //null check
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userRepository = new UserRepositoryImpl();
         appSharedPreference = new AppSharedPreference(this);
@@ -77,7 +82,7 @@ public class Activity_Update_Profile extends AppCompatActivity implements View.O
 
         edtName = findViewById(R.id.username);
         edtPassword = findViewById(R.id.password);
-        edtAddress = findViewById(R.id.address);
+        edtEmail = findViewById(R.id.email);
         edtMobileNumber = findViewById(R.id.mobilenumber);
         btnUpdate = findViewById(R.id.update_button);
         imgProfile = findViewById(R.id.memberImage);
@@ -99,6 +104,7 @@ public class Activity_Update_Profile extends AppCompatActivity implements View.O
                     edtName.setText(users.getName());
                     edtMobileNumber.setText(users.getMobileNumber());
                     edtPassword.setText(users.getPassword());
+                    edtEmail.setText(users.getEmail());
                     Glide.with(getApplicationContext()).load(users.getProfileImage()).placeholder(R.drawable.user1).into(imgProfile);
                 }
             }
@@ -139,9 +145,11 @@ public class Activity_Update_Profile extends AppCompatActivity implements View.O
             // Get the Uri of data
             filePath = data.getData();
             try {
+
                 // Setting image on image view using Bitmap
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 imgProfile.setImageBitmap(bitmap);
+
             } catch (IOException e) {
                 // Log the exception
                 e.printStackTrace();
@@ -174,6 +182,8 @@ public class Activity_Update_Profile extends AppCompatActivity implements View.O
                         private void updateProductDetails(Users user, String url) {
                             user.setName(edtName.getText().toString());
                             user.setMobileNumber(edtMobileNumber.getText().toString());
+                            user.setEmail(edtEmail.getText().toString());
+                            user.setPassword(edtPassword.getText().toString());
                             user.setProfileImage(url);
                             updateLeed(user.getUserId(), user.getLeedStatusMap());
                         }
