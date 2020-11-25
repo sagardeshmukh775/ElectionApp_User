@@ -43,6 +43,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity
         implements OnFragmentInteractionListener,
@@ -105,9 +106,9 @@ public class MainActivity extends AppCompatActivity
         //NOTE:  Checks first item in the navigation drawer initially
         navigationView.setCheckedItem(R.id.home);
         View headerview = navigationView.getHeaderView(0);
-        username = (TextView) headerview.findViewById(R.id.username);
-        userEmail = (TextView) headerview.findViewById(R.id.useremail);
-        imgProfile = (ImageView) headerview.findViewById(R.id.image_view_profile);
+        username = (TextView) headerview.findViewById(R.id.textViewuserName);
+        userEmail = (TextView) headerview.findViewById(R.id.textViewMobile);
+        imgProfile = (ImageView) headerview.findViewById(R.id.memberImage);
 
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +196,8 @@ public class MainActivity extends AppCompatActivity
                 if (object != null) {
                     user = (Users) object;
 
-                    Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.user).into(imgProfile);
+//                    Glide.with(MainActivity.this).load(user.getProfileImage()).placeholder(R.drawable.loading).into(imgProfile);
+                    Picasso.with(MainActivity.this).load(user.getProfileImage()).placeholder(R.drawable.loading).into(imgProfile);
 
                     progressDialog.dismissDialog();
                 }

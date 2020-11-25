@@ -34,6 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 
 import java.io.IOException;
@@ -105,7 +106,8 @@ public class Activity_Update_Profile extends AppCompatActivity implements View.O
                     edtMobileNumber.setText(users.getMobileNumber());
                     edtPassword.setText(users.getPassword());
                     edtEmail.setText(users.getEmail());
-                    Glide.with(getApplicationContext()).load(users.getProfileImage()).placeholder(R.drawable.user1).into(imgProfile);
+                    Picasso.with(Activity_Update_Profile.this).load(users.getProfileImage()).placeholder(R.drawable.loading).into(imgProfile);
+//                    Glide.with(Activity_Update_Profile.this).load(users.getProfileImage()).placeholder(R.drawable.loading).into(imgProfile);
                 }
             }
 
